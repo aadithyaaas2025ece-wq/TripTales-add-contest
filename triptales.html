@@ -1,0 +1,313 @@
+<!--
+TripTales - Single-file travel blog (index.html)
+
+How to use:
+1. Save this file as index.html and open it in your browser.
+2. To upload to GitHub:
+   $ git init
+   $ git add index.html
+   $ git commit -m "Initial commit: TripTales"
+   $ gh repo create TripTales --public --source=. --remote=origin --push
+   (or: create a repo on github.com, then:)
+   $ git remote add origin https://github.com/<your-username>/TripTales.git
+   $ git push -u origin main
+
+If you want, I can also create a README.md, a .gitignore, or split this into separate files.
+-->
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>TripTales — Simple Travel Blog</title>
+  <style>
+    :root{
+      --bg:#0e0e10;
+      --card:#15151a;
+      --gold:#f4d384;
+      --gold-light:#ffe9b0;
+      --text:#f5f5f7;
+      --muted:#9ea0a8;
+      --glass: rgba(255,255,255,0.08);
+      --radius:16px;
+      font-family: "Poppins", system-ui;
+    }
+
+    *{box-sizing:border-box; margin:0; padding:0}
+    body{
+      background: radial-gradient(circle at top, #1d1d24, #0e0e10 70%);
+      color:var(--text);
+      padding:40px;
+      display:flex;
+      justify-content:center;
+      min-height:100vh;
+    }
+
+    .container{
+      width:1100px;
+      max-width:95vw;
+      animation: fadeIn 1s ease;
+    }
+
+    @keyframes fadeIn{
+      from{opacity:0; transform:translateY(20px);} to{opacity:1; transform:translateY(0);}
+    }
+
+    header.site-header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:40px;
+      padding:20px 0;
+      border-bottom:1px solid rgba(255,255,255,0.05);
+    }
+
+    .logo{
+      width:60px;height:60px;border-radius:50%;
+      background:linear-gradient(135deg,var(--gold),var(--gold-light));
+      display:flex;align-items:center;justify-content:center;
+      font-weight:700;color:#222;font-size:22px;
+      box-shadow:0 0 20px rgba(244,211,132,0.6);
+    }
+
+    h1{font-size:32px; letter-spacing:1px;}
+    .lead{color:var(--gold-light); font-size:14px; opacity:0.85;}
+
+    main{
+      display:grid;
+      grid-template-columns:380px 1fr;
+      gap:30px;
+    }
+
+    .card{
+      background:rgba(255,255,255,0.03);
+      border-radius:var(--radius);
+      padding:20px;
+      backdrop-filter:blur(10px);
+      border:1px solid rgba(255,255,255,0.06);
+      box-shadow:0 4px 25px rgba(0,0,0,0.4);
+      transition:0.3s ease;
+    }
+    .card:hover{
+      transform:translateY(-4px);
+      box-shadow:0 10px 40px rgba(244,211,132,0.2);
+    }
+
+    input, textarea{
+      width:100%;
+      padding:12px 14px;
+      border-radius:10px;
+      background:rgba(255,255,255,0.06);
+      border:1px solid rgba(255,255,255,0.1);
+      color:var(--text);
+      margin-bottom:12px;
+      font-size:14px;
+      transition:0.2s;
+    }
+    input:focus, textarea:focus{
+      border-color:var(--gold);
+      box-shadow:0 0 10px rgba(244,211,132,0.4);
+    }
+
+    .btn{
+      padding:12px 18px;
+      border-radius:12px;
+      border:none;
+      font-weight:600;
+      cursor:pointer;
+      background:linear-gradient(135deg,var(--gold),var(--gold-light));
+      color:#222;
+      box-shadow:0 0 15px rgba(244,211,132,0.5);
+      transition:0.3s;
+    }
+    .btn:hover{
+      transform:scale(1.05);
+      box-shadow:0 0 25px rgba(244,211,132,0.8);
+    }
+
+    .btn.secondary{
+      background:none;
+      border:1px solid var(--gold);
+      color:var(--gold);
+      box-shadow:none;
+    }
+    .btn.secondary:hover{
+      background:rgba(244,211,132,0.15);
+    }
+
+    .story{
+      border-left:4px solid var(--gold);
+      padding-left:16px;
+      margin-bottom:16px;
+      animation: fadeIn 0.8s;
+    }
+    .story h3{
+      color:var(--gold-light);
+    }
+
+    footer.site-footer{
+      text-align:center;
+      margin-top:20px;
+      color:var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="site-header">
+      <div class="brand">
+        <div class="logo">TT</div>
+        <div>
+          <h1>TripTales</h1>
+          <p class="lead">Share your travel memories — short, sweet, and safe.</p>
+        </div>
+      </div>
+      <div class="info">
+        <p style="margin:0;color:var(--muted);font-size:13px">Built with HTML • CSS • JavaScript</p>
+      </div>
+    </header>
+
+    <main>
+      <aside class="card">
+        <h2 style="margin-top:0;margin-bottom:10px">Write a story</h2>
+        <form id="postForm" aria-label="Post a travel story">
+          <label for="title">Title</label>
+          <input id="title" name="title" type="text" placeholder="e.g., Sunset in Goa" required />
+
+          <label for="author">Your name (optional)</label>
+          <input id="author" name="author" type="text" placeholder="e.g., Priya" />
+
+          <label for="story">Story</label>
+          <textarea id="story" name="story" placeholder="Tell us what happened..." required></textarea>
+
+          <div style="display:flex;gap:8px;align-items:center;margin-top:8px">
+            <button type="submit" class="btn">Post</button>
+            <button type="button" id="clearBtn" class="btn secondary">Clear</button>
+          </div>
+
+          <p id="formError" style="color:#ffb3b3;font-size:13px;margin:8px 0 0 0;display:none"></p>
+        </form>
+
+        <hr style="opacity:0.06;margin:12px 0" />
+        <p style="color:var(--muted);font-size:13px">Tips: Keep it short (1–3 paragraphs). Be respectful and avoid private or sensitive information.</p>
+      </aside>
+
+      <section>
+        <div class="card">
+          <h2 style="margin-top:0">Stories</h2>
+          <div id="stories" class="stories">
+            <!-- Stories will appear here -->
+          </div>
+          <div id="noStories" class="empty" style="display:none">No stories yet — be the first to share!</div>
+        </div>
+
+        <footer class="site-footer">
+          <small>TripTales • A tiny demo travel blog</small>
+        </footer>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    // Simple client-side storage and rendering
+    const form = document.getElementById('postForm');
+    const titleInput = document.getElementById('title');
+    const authorInput = document.getElementById('author');
+    const storyInput = document.getElementById('story');
+    const storiesEl = document.getElementById('stories');
+    const noStories = document.getElementById('noStories');
+    const formError = document.getElementById('formError');
+    const clearBtn = document.getElementById('clearBtn');
+
+    function loadStories(){
+      const raw = localStorage.getItem('triptales_stories');
+      try{
+        return raw ? JSON.parse(raw) : [];
+      }catch(e){
+        console.error('Failed to parse stories', e);
+        return [];
+      }
+    }
+
+    function saveStories(list){
+      localStorage.setItem('triptales_stories', JSON.stringify(list));
+    }
+
+    function renderStories(){
+      const list = loadStories();
+      storiesEl.innerHTML = '';
+      if(!list.length){
+        noStories.style.display = 'block';
+        return;
+      }
+      noStories.style.display = 'none';
+
+      // newest first
+      list.slice().reverse().forEach((s, idx) => {
+        const art = document.createElement('article');
+        art.className = 'story card';
+        const h = document.createElement('h3');
+        h.textContent = s.title;
+        const meta = document.createElement('div');
+        meta.className = 'meta';
+        const date = new Date(s.timestamp).toLocaleString();
+        meta.textContent = ${s.author ? s.author + ' • ' : ''}${date};
+        const p = document.createElement('p');
+        // simple safe-text rendering
+        p.textContent = s.story;
+
+        art.appendChild(h);
+        art.appendChild(meta);
+        art.appendChild(p);
+
+        storiesEl.appendChild(art);
+      });
+    }
+
+    function showError(msg){
+      formError.textContent = msg;
+      formError.style.display = 'block';
+    }
+    function hideError(){ formError.style.display = 'none'; }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      hideError();
+      const title = titleInput.value.trim();
+      const story = storyInput.value.trim();
+
+      // Validation: ensure not empty
+      if(!title){ showError('Please enter a title.'); titleInput.focus(); return; }
+      if(!story){ showError('Please write your story.'); storyInput.focus(); return; }
+
+      // Build story object
+      const obj = {
+        title: title,
+        author: authorInput.value.trim() || 'Anonymous',
+        story: story,
+        timestamp: Date.now()
+      };
+
+      const list = loadStories();
+      list.push(obj);
+      saveStories(list);
+
+      // Clear form and re-render
+      form.reset();
+      renderStories();
+
+      // Accessibility: focus on stories list
+      storiesEl.querySelector('.story')?.focus();
+    });
+
+    clearBtn.addEventListener('click', () => {
+      form.reset();
+      hideError();
+    });
+
+    // Initialize
+    renderStories();
+  </script>
+</body>
+</html>
